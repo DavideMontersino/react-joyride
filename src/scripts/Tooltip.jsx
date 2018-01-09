@@ -26,6 +26,7 @@ export default class JoyrideTooltip extends React.Component {
     ]).isRequired,
     // sanitized selector string
     selector: PropTypes.string.isRequired,
+    showCloseButton: PropTypes.bool,
     showOverlay: PropTypes.bool.isRequired,
     standalone: PropTypes.bool,
     step: PropTypes.object.isRequired,
@@ -420,6 +421,7 @@ export default class JoyrideTooltip extends React.Component {
     const {
       buttons,
       disableOverlay,
+      showCloseButton,
       onClick,
       selector,
       showOverlay,
@@ -488,23 +490,24 @@ export default class JoyrideTooltip extends React.Component {
         <div
           className={`joyride-tooltip__triangle joyride-tooltip__triangle-${opts.positionClass}`}
           style={styles.arrow} />
-        <button
+        { showCloseButton && <button
           className={`joyride-tooltip__close${(output.header ? ' joyride-tooltip__close--header' : '')}`}
           style={styles.buttons.close}
           data-type="close"
-          onClick={onClick} />
+          onClick={onClick} /> }
         {output.header}
         {output.main}
         <div className="joyride-tooltip__footer" style={styles.footer}>
           {output.skip}
           {output.secondary}
-          <button
-            className="joyride-tooltip__button joyride-tooltip__button--primary"
-            style={styles.buttons.primary}
-            data-type={['single', 'casual'].indexOf(type) > -1 ? 'close' : 'next'}
-            onClick={onClick}>
-            {buttons.primary}
-          </button>
+          { buttons.primary &&
+            <button
+              className="joyride-tooltip__button joyride-tooltip__button--primary"
+              style={styles.buttons.primary}
+              data-type={['single', 'casual'].indexOf(type) > -1 ? 'close' : 'next'}
+              onClick={onClick}>
+              {buttons.primary}
+            </button> }
         </div>
       </div>
     );

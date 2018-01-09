@@ -69,6 +69,8 @@ class Joyride extends React.Component {
     scrollToFirstStep: PropTypes.bool,
     scrollToSteps: PropTypes.bool,
     showBackButton: PropTypes.bool,
+    showCloseButton: PropTypes.bool,
+    showNextButton: PropTypes.bool,
     showOverlay: PropTypes.bool,
     showSkipButton: PropTypes.bool,
     showStepsProgress: PropTypes.bool,
@@ -100,6 +102,8 @@ class Joyride extends React.Component {
     scrollToFirstStep: false,
     scrollToSteps: true,
     showBackButton: true,
+    showNextButton: true,
+    showCloseButton: true,
     showOverlay: true,
     showSkipButton: false,
     showStepsProgress: false,
@@ -1145,6 +1149,8 @@ class Joyride extends React.Component {
       locale,
       offsetParentSelector,
       showBackButton,
+      showNextButton,
+      showCloseButton,
       showOverlay,
       showSkipButton,
       showStepsProgress,
@@ -1195,12 +1201,17 @@ class Joyride extends React.Component {
               if (typeof locale.next === 'string') {
                 next = (<span>{locale.next}</span>);
               }
+              const nextButton = showNextButton ? next : '';
 
-              buttons.primary = (<span>{next} <span>{`${(index + 1)}/${steps.length}`}</span></span>);
+              buttons.primary = (<span>{ nextButton } <span>{`${(index + 1)}/${steps.length}`}</span></span>);
             }
             else {
-              buttons.primary = locale.next;
+              buttons.primary = showNextButton ? locale.next : undefined;
             }
+          }
+
+          if (!showNextButton) {
+            buttons.primary = undefined;
           }
 
           if (showBackButton && index > 0) {
@@ -1222,6 +1233,7 @@ class Joyride extends React.Component {
         offsetParentSelector,
         position,
         selector: sanitizeSelector(step.selector),
+        showCloseButton,
         showOverlay: shouldShowOverlay,
         step,
         standalone: Boolean(standaloneData),
