@@ -533,8 +533,8 @@ export default class JoyrideTooltip extends React.Component {
       <div
         className="joyride-overlay"
         style={overlayStyles}
-        data-type="close"
-        onClick={!disableOverlay ? onClick : undefined}>
+        data-type={!disableOverlay ? 'close' : 'doNothing'}
+        onClick={onClick} >
         {output.hole}
         {output.tooltipComponent}
       </div>

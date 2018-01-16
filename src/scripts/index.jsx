@@ -879,7 +879,13 @@ class Joyride extends React.Component {
       e.preventDefault();
       e.stopPropagation();
       const tooltip = document.querySelector('.joyride-tooltip');
-      let newIndex = index + (dataType === 'back' ? -1 : 1);
+      let newIndex = index;
+      if (dataType === 'back') {
+        newIndex--;
+      }
+      if (dataType === 'next' || dataType === 'close') {
+        newIndex++;
+      }
 
       if (dataType === 'skip') {
         this.setState({
@@ -901,8 +907,9 @@ class Joyride extends React.Component {
         const shouldDisplay = ['continuous', 'guided'].indexOf(type) > -1
           && ['close', 'skip'].indexOf(dataType) === -1
           && Boolean(steps[newIndex]);
-
-        this.toggleTooltip({ show: shouldDisplay, index: newIndex, action: dataType });
+        if (dataType !== 'doNothing') {
+          this.toggleTooltip({ show: shouldDisplay, index: newIndex, action: dataType });
+        }
       }
 
       if (e.target.className === 'joyride-overlay') {
